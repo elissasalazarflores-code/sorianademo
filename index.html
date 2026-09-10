@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soriana Beneficios · Cine con descuento (Demo)</title>
+<style>
+  :root{
+    color-scheme: light;
+    --red:#D5001C;
+    --red-dark:#9E0016;
+    --red-darker:#7A0011;
+    --red-light:#FCE9EA;
+    --red-lighter:#FFF5F5;
+    --ink:#221E1F;
+    --gray:#6B6465;
+    --gray-light:#F6F3F1;
+    --line:#EAE2E1;
+    --white:#FFFFFF;
+    --gold:#F2A900;
+    --gold-light:#FFF3DA;
+    --navy:#233A66;
+    --navy-light:#E8ECF6;
+    --green:#1E8E5A;
+    --green-light:#E4F5EC;
+    --radius-lg:22px;
+    --radius-md:16px;
+    --radius-sm:10px;
+    --shadow-sm: 0 2px 10px rgba(34,30,31,.06);
+    --shadow-md: 0 10px 30px rgba(34,30,31,.10);
+    --shadow-lg: 0 20px 50px rgba(34,30,31,.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .demo-badge{
+    position:fixed; top:14px; right:14px; z-index:999;
+    background:var(--ink); color:#fff; font-size:11px; font-weight:700;
+    letter-spacing:.06em; padding:6px 12px; border-radius:999px;
+    box-shadow:var(--shadow-md); opacity:.88; pointer-events:none;
+    text-transform:uppercase;
+  }
+
+  /* ===== Utility bar ===== */
+  .utility-bar{background:var(--ink); color:#fff; font-size:13px;}
+  .utility-bar .wrap{display:flex; align-items:center; justify-content:space-between; height:38px;}
+  .utility-bar .left{display:flex; align-items:center; gap:8px; opacity:.9;}
+  .utility-bar .right{display:flex; align-items:center; gap:14px;}
+  .badge-pill{
+    background:rgba(255,255,255,.14); padding:3px 10px; border-radius:999px; font-size:11px; font-weight:600;
+  }
+  .employee-chip{display:flex; align-items:center; gap:8px; font-weight:600;}
+  .avatar-dot{
+    width:22px;height:22px;border-radius:50%;background:var(--red);
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;
+  }
+
+  /* ===== Header ===== */
+  header{
+    position:sticky; top:0; z-index:100; background:#fff;
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; height:78px; gap:20px;}
+  .logo-lockup{display:flex; align-items:center; gap:12px;}
+  .logo-lockup svg{display:block;}
+  .brand-name{font-size:22px; font-weight:800; letter-spacing:-.02em; color:var(--red); line-height:1;}
+  .brand-sub{font-size:11px; color:var(--gray); font-weight:600; letter-spacing:.02em;}
+  .partner-divider{width:1px; height:32px; background:var(--line);}
+  .partner-tag{display:flex; flex-direction:column; line-height:1.15;}
+  .partner-tag .l1{font-size:10px; color:var(--gray); font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
+  .partner-tag .l2{font-size:14px; font-weight:800; color:var(--ink);}
+  .partner-tag .l2 span{color:var(--red);}
+
+  nav.main-links{display:flex; align-items:center; gap:30px;}
+  nav.main-links a{font-size:14.5px; font-weight:600; color:var(--ink); opacity:.8; transition:opacity .15s;}
+  nav.main-links a:hover{opacity:1; color:var(--red);}
+
+  .nav-actions{display:flex; align-items:center; gap:12px;}
+  .icon-btn{
+    position:relative; width:42px; height:42px; border-radius:50%; border:1px solid var(--line);
+    background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .icon-btn:hover{border-color:var(--red);}
+  .cart-count{
+    position:absolute; top:-4px; right:-4px; background:var(--red); color:#fff;
+    font-size:10.5px; font-weight:800; min-width:18px; height:18px; border-radius:999px;
+    display:flex; align-items:center; justify-content:center; padding:0 4px; border:2px solid #fff;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 22px; border-radius:999px; font-weight:700; font-size:14.5px;
+    cursor:pointer; border:none; transition:transform .15s, box-shadow .15s, background .15s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--red); color:#fff; box-shadow:0 8px 20px rgba(213,0,28,.28);}
+  .btn-primary:hover{background:var(--red-dark);}
+  .btn-outline{background:#fff; color:var(--ink); border:1.5px solid var(--line);}
+  .btn-outline:hover{border-color:var(--red); color:var(--red);}
+  .btn-block{width:100%;}
+  .btn-sm{padding:9px 16px; font-size:13px;}
+  .hamburger{display:none; width:42px; height:42px; border-radius:50%; border:1px solid var(--line); background:#fff; align-items:center; justify-content:center; cursor:pointer;}
+
+  .mobile-panel{display:none; flex-direction:column; padding:10px 24px 20px; border-top:1px solid var(--line); gap:4px;}
+  .mobile-panel a{padding:12px 4px; font-weight:600; border-bottom:1px solid var(--line); font-size:15px;}
+  .mobile-panel.open{display:flex;}
+
+  /* ===== Hero ===== */
+  .hero{
+    background:linear-gradient(180deg, var(--red-lighter) 0%, #fff 78%);
+    padding:64px 0 40px; position:relative; overflow:hidden;
+  }
+  .hero .wrap{display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;}
+  .kicker{
+    display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+    padding:7px 14px 7px 8px; border-radius:999px; font-size:12.5px; font-weight:700; color:var(--red-dark);
+    box-shadow:var(--shadow-sm); margin-bottom:20px;
+  }
+  .kicker .dot{width:22px;height:22px;border-radius:50%;background:var(--red-light);display:flex;align-items:center;justify-content:center;}
+  h1{font-size:44px; line-height:1.08; letter-spacing:-.02em; margin:0 0 18px; font-weight:800;}
+  h1 .accent{color:var(--red);}
+  .hero p.lead{font-size:17px; color:var(--gray); line-height:1.6; max-width:520px; margin:0 0 28px;}
+  .hero-ctas{display:flex; gap:14px; margin-bottom:34px; flex-wrap:wrap;}
+  .hero-stats{display:flex; align-items:center; gap:22px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); padding:16px 20px; box-shadow:var(--shadow-sm); max-width:560px; flex-wrap:wrap;}
+  .stat{display:flex; flex-direction:column;}
+  .stat b{font-size:19px; font-weight:800;}
+  .stat span{font-size:11.5px; color:var(--gray); font-weight:600;}
+  .stat-divider{width:1px; height:30px; background:var(--line);}
+
+  .hero-visual{position:relative;}
+  .ticket-card{
+    background:var(--ink); color:#fff; border-radius:24px; padding:26px; box-shadow:var(--shadow-lg);
+    position:relative; overflow:hidden;
+  }
+  .ticket-card::before, .ticket-card::after{
+    content:""; position:absolute; width:26px; height:26px; background:var(--red-lighter);
+    border-radius:50%; left:-13px;
+  }
+  .ticket-card::before{top:158px;}
+  .ticket-card::after{top:158px; left:auto; right:-13px;}
+  .ticket-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .ticket-top .who{font-size:12px; opacity:.7; font-weight:600; text-transform:uppercase; letter-spacing:.05em;}
+  .ticket-top .brand{font-weight:800; font-size:15px; color:#fff;}
+  .ticket-movie{font-size:21px; font-weight:800; margin-bottom:6px;}
+  .ticket-meta{display:flex; gap:16px; font-size:12.5px; opacity:.75; margin-bottom:20px;}
+  .ticket-dashed{border-top:2px dashed rgba(255,255,255,.25); margin:0 0 18px;}
+  .ticket-bottom{display:flex; align-items:center; justify-content:space-between;}
+  .ticket-price-old{font-size:13px; opacity:.55; text-decoration:line-through;}
+  .ticket-price-new{font-size:26px; font-weight:800; color:#fff;}
+  .ticket-save{background:var(--gold); color:#3a2600; font-weight:800; font-size:12px; padding:5px 11px; border-radius:999px;}
+  .barcode{height:34px; margin-top:16px; background:repeating-linear-gradient(90deg,#fff 0 2px, transparent 2px 5px); opacity:.85; border-radius:4px;}
+  .float-chip{
+    position:absolute; background:#fff; border-radius:16px; box-shadow:var(--shadow-md); padding:12px 16px;
+    display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700;
+  }
+  .float-chip.c1{top:-18px; right:-6px;}
+  .float-chip.c2{bottom:-16px; left:-18px;}
+  .float-chip .ico{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+
+  /* ===== Sections generic ===== */
+  section{padding:70px 0;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 44px;}
+  .eyebrow{color:var(--red); font-weight:800; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;}
+  h2{font-size:32px; letter-spacing:-.02em; margin:0 0 12px; font-weight:800;}
+  .section-head p{color:var(--gray); font-size:15.5px; line-height:1.6; margin:0;}
+
+  /* ===== Benefits strip ===== */
+  .benefits-strip{background:var(--gray-light); padding:34px 0;}
+  .benefits-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  .benefit-item{display:flex; align-items:center; gap:14px; background:#fff; border-radius:var(--radius-md); padding:16px 18px; box-shadow:var(--shadow-sm);}
+  .benefit-item .ico{width:44px;height:44px;border-radius:12px;background:var(--red-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .benefit-item b{display:block; font-size:14px;}
+  .benefit-item span{font-size:12.5px; color:var(--gray);}
+
+  /* ===== Steps ===== */
+  .steps-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .step-card{border:1px solid var(--line); border-radius:var(--radius-lg); padding:26px 22px; position:relative; background:#fff; transition:box-shadow .15s, transform .15s;}
+  .step-card:hover{box-shadow:var(--shadow-md); transform:translateY(-3px);}
+  .step-num{width:38px;height:38px;border-radius:50%;background:var(--ink); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-size:15px;}
+  .step-card h3{font-size:16.5px; margin:0 0 8px;}
+  .step-card p{font-size:13.5px; color:var(--gray); line-height:1.55; margin:0;}
+  .step-arrow{position:absolute; top:44px; right:-30px; color:var(--line); z-index:2;}
+
+  /* ===== Catalog ===== */
+  .catalog-bg{background:var(--gray-light);}
+  .tabs{display:flex; gap:10px; justify-content:center; margin-bottom:34px; flex-wrap:wrap;}
+  .tab-btn{
+    padding:11px 20px; border-radius:999px; border:1.5px solid var(--line); background:#fff;
+    font-weight:700; font-size:13.5px; cursor:pointer; transition:all .15s; color:var(--ink);
+  }
+  .tab-btn.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+  .cat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .cat-card{
+    background:#fff; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm);
+    display:flex; flex-direction:column; transition:box-shadow .18s, transform .18s;
+  }
+  .cat-card:hover{box-shadow:var(--shadow-md); transform:translateY(-4px);}
+  .cat-top{height:108px; position:relative; display:flex; align-items:flex-end; padding:14px 16px;}
+  .cat-top .cinema-pill{background:rgba(255,255,255,.92); color:var(--ink); font-size:11px; font-weight:800; padding:5px 10px; border-radius:999px;}
+  .cat-top .save-badge{
+    position:absolute; top:12px; right:12px; background:var(--gold); color:#3a2600; font-size:11px; font-weight:800;
+    padding:5px 10px; border-radius:999px;
+  }
+  .cat-top .flag{
+    position:absolute; top:12px; left:12px; background:var(--red); color:#fff; font-size:10.5px; font-weight:800;
+    padding:4px 9px; border-radius:999px; text-transform:uppercase; letter-spacing:.03em;
+  }
+  .cat-top.bg-cinepolis{background:linear-gradient(135deg,var(--navy),#31508c);}
+  .cat-top.bg-cinemex{background:linear-gradient(135deg,var(--red),#ff4b57);}
+  .cat-top.bg-combo{background:linear-gradient(135deg,#c98600,var(--gold));}
+  .cat-body{padding:16px 16px 18px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .cat-body h4{font-size:15px; margin:0; line-height:1.3;}
+  .cat-body .desc{font-size:12px; color:var(--gray); margin:0;}
+  .price-row{display:flex; align-items:baseline; gap:8px; margin-top:auto;}
+  .price-old{font-size:12.5px; color:var(--gray); text-decoration:line-through;}
+  .price-new{font-size:20px; font-weight:800; color:var(--ink);}
+  .cat-actions{display:flex; gap:8px; align-items:center;}
+  .add-btn{
+    flex:1; background:var(--red); color:#fff; border:none; border-radius:999px; padding:10px 14px;
+    font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+    transition:background .15s;
+  }
+  .add-btn:hover{background:var(--red-dark);}
+  .add-btn.added{background:var(--green);}
+  .catalog-note{text-align:center; font-size:12px; color:var(--gray); margin-top:26px;}
+
+  /* ===== Redemption ===== */
+  .redeem-grid{display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center;}
+  .redeem-card{background:var(--ink); color:#fff; border-radius:var(--radius-lg); padding:38px; }
+  .redeem-card h3{font-size:22px; margin:0 0 14px;}
+  .redeem-card p{color:rgba(255,255,255,.72); font-size:14.5px; line-height:1.7; margin:0 0 20px;}
+  .cinema-logos{display:flex; gap:14px;}
+  .cinema-logo-chip{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:14px 20px; font-weight:800; font-size:15px; display:flex; align-items:center; gap:10px;}
+  .redeem-steps{display:flex; flex-direction:column; gap:16px;}
+  .redeem-step{display:flex; gap:16px; align-items:flex-start;}
+  .redeem-step .n{width:30px;height:30px;border-radius:50%;background:var(--red-light); color:var(--red-dark); font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .redeem-step b{display:block; font-size:14.5px; margin-bottom:3px;}
+  .redeem-step span{font-size:13px; color:var(--gray);}
+
+  /* ===== Testimonials ===== */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .testi-card{border:1px solid var(--line); border-radius:var(--radius-lg); padding:24px; background:#fff;}
+  .stars{color:var(--gold); font-size:14px; margin-bottom:12px; letter-spacing:2px;}
+  .testi-card p{font-size:14px; line-height:1.6; color:var(--ink); margin:0 0 18px;}
+  .testi-who{display:flex; align-items:center; gap:10px;}
+  .testi-avatar{width:38px;height:38px;border-radius:50%;background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;}
+  .testi-who b{font-size:13.5px; display:block;}
+  .testi-who span{font-size:12px; color:var(--gray);}
+
+  /* ===== FAQ ===== */
+  .faq-list{max-width:760px; margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; padding:20px 4px; font-size:15.5px; font-weight:700;
+    display:flex; justify-content:space-between; align-items:center; cursor:pointer; color:var(--ink);
+  }
+  .faq-q .plus{transition:transform .2s; color:var(--red); font-size:20px; flex-shrink:0; margin-left:16px;}
+  .faq-item.open .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{margin:0 4px 20px; font-size:14px; color:var(--gray); line-height:1.65; max-width:680px;}
+  .faq-item.open .faq-a{max-height:220px;}
+
+  /* ===== CTA banner ===== */
+  .cta-banner{
+    background:linear-gradient(120deg, var(--red), var(--red-darker)); border-radius:28px; padding:44px 48px;
+    display:flex; align-items:center; justify-content:space-between; gap:30px; color:#fff; flex-wrap:wrap;
+  }
+  .cta-banner h3{font-size:26px; margin:0 0 8px;}
+  .cta-banner p{margin:0; color:rgba(255,255,255,.85); font-size:14.5px;}
+  .cta-banner .btn-outline{background:#fff; color:var(--red-dark); border-color:#fff;}
+
+  /* ===== Footer ===== */
+  footer{background:var(--ink); color:rgba(255,255,255,.7); padding:56px 0 26px; font-size:13.5px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:36px; margin-bottom:36px;}
+  .foot-brand .brand-name{color:#fff;}
+  .foot-brand p{line-height:1.7; margin:14px 0 0; max-width:280px; color:rgba(255,255,255,.55);}
+  .foot-col h4{color:#fff; font-size:13px; text-transform:uppercase; letter-spacing:.05em; margin:0 0 16px;}
+  .foot-col a{display:block; margin-bottom:11px; color:rgba(255,255,255,.65); transition:color .15s;}
+  .foot-col a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12); padding-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; color:rgba(255,255,255,.45); font-size:12px;}
+
+  /* ===== Cart drawer ===== */
+  .overlay{position:fixed; inset:0; background:rgba(20,15,15,.5); z-index:200; opacity:0; pointer-events:none; transition:opacity .2s;}
+  .overlay.show{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:420px; max-width:92vw; background:#fff; z-index:201;
+    transform:translateX(100%); transition:transform .25s ease; display:flex; flex-direction:column; box-shadow:-10px 0 40px rgba(0,0,0,.2);
+  }
+  .drawer.show{transform:translateX(0);}
+  .drawer-head{display:flex; align-items:center; justify-content:space-between; padding:22px 22px 16px; border-bottom:1px solid var(--line);}
+  .drawer-head h3{margin:0; font-size:18px;}
+  .close-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line); background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+  .drawer-body{flex:1; overflow-y:auto; padding:18px 22px;}
+  .cart-empty{text-align:center; color:var(--gray); font-size:14px; padding:60px 10px;}
+  .cart-row{display:flex; gap:12px; align-items:center; padding:14px 0; border-bottom:1px solid var(--line);}
+  .cart-thumb{width:52px;height:52px;border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:800; text-align:center;}
+  .cart-info{flex:1; min-width:0;}
+  .cart-info b{font-size:13.5px; display:block; margin-bottom:2px;}
+  .cart-info span{font-size:11.5px; color:var(--gray);}
+  .cart-price{font-size:14px; font-weight:800; flex-shrink:0;}
+  .cart-remove{background:none; border:none; color:var(--gray); cursor:pointer; font-size:18px; padding:0 0 0 8px;}
+  .cart-remove:hover{color:var(--red);}
+  .drawer-foot{border-top:1px solid var(--line); padding:18px 22px 24px;}
+  .row-between{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:8px; color:var(--gray);}
+  .row-between b{color:var(--green); font-weight:700;}
+  .row-total{display:flex; justify-content:space-between; font-size:18px; font-weight:800; margin:14px 0 18px;}
+
+  /* ===== Modal ===== */
+  .modal-overlay{position:fixed; inset:0; background:rgba(20,15,15,.6); z-index:300; display:none; align-items:center; justify-content:center; padding:20px;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:#fff; border-radius:24px; max-width:460px; width:100%; padding:34px; text-align:center; max-height:88vh; overflow-y:auto;}
+  .modal .spinner{width:52px;height:52px;border-radius:50%; border:4px solid var(--red-light); border-top-color:var(--red); margin:0 auto 20px; animation:spin 1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .modal h3{font-size:20px; margin:6px 0 8px;}
+  .modal p.sub{color:var(--gray); font-size:14px; margin:0 0 20px; line-height:1.5;}
+  .success-icon{width:64px;height:64px;border-radius:50%; background:var(--green-light); color:var(--green); display:flex; align-items:center; justify-content:center; margin:0 auto 18px;}
+  .folio-card{background:var(--gray-light); border:1.5px dashed var(--line); border-radius:14px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; text-align:left;}
+  .folio-card .fname{font-size:12.5px; font-weight:700; margin-bottom:2px;}
+  .folio-card .fcode{font-size:14px; font-weight:800; letter-spacing:.03em; color:var(--red-dark); font-family:'Courier New',monospace;}
+  .copy-btn{background:#fff; border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:11.5px; font-weight:700; cursor:pointer; flex-shrink:0;}
+  .copy-btn:hover{border-color:var(--red); color:var(--red);}
+  .folio-list{max-height:260px; overflow-y:auto; margin-bottom:18px;}
+
+  /* ===== Responsive ===== */
+  @media (max-width:960px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-visual{order:-1; max-width:420px; margin:0 auto 20px;}
+    .benefits-grid{grid-template-columns:repeat(2,1fr);}
+    .steps-grid{grid-template-columns:repeat(2,1fr);}
+    .step-arrow{display:none;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .redeem-grid{grid-template-columns:1fr;}
+    .testi-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    h1{font-size:34px;}
+  }
+  @media (max-width:680px){
+    nav.main-links{display:none;}
+    .hamburger{display:flex;}
+    .utility-bar .left span:last-child{display:none;}
+    .benefits-grid{grid-template-columns:1fr;}
+    .steps-grid{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+    .cta-banner{flex-direction:column; text-align:center; padding:34px 26px;}
+    h1{font-size:28px;}
+    h2{font-size:26px;}
+    .partner-tag{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-badge">Vista previa · Demo interna</div>
+
+<!-- ===== Utility bar ===== -->
+<div class="utility-bar">
+  <div class="wrap">
+    <div class="left">
+      <span class="badge-pill">Beneficios para Colaboradores Soriana</span>
+      <span>&nbsp;·&nbsp; Soporte y operación por TaquillApp para Empresas</span>
+    </div>
+    <div class="right">
+      <div class="employee-chip"><span class="avatar-dot">MG</span> Hola, María · Colaboradora</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="wrap nav">
+    <div class="logo-lockup">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="20" fill="#D5001C"/>
+        <path d="M13 21.5C13 17 16 13.5 20 13.5C24 13.5 27 17 27 21.5C27 24.5 24.8 26.5 20 26.5C15.2 26.5 13 24.5 13 21.5Z" fill="white"/>
+        <circle cx="16.7" cy="20" r="1.6" fill="#D5001C"/>
+        <circle cx="23.3" cy="20" r="1.6" fill="#D5001C"/>
+      </svg>
+      <div>
+        <div class="brand-name">soriana</div>
+        <div class="brand-sub">BENEFICIOS PARA TI</div>
+      </div>
+      <div class="partner-divider"></div>
+      <div class="partner-tag">
+        <span class="l1">Cine con descuento</span>
+        <span class="l2">Taquilla<span>App</span></span>
+      </div>
+    </div>
+
+    <nav class="main-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#canje">Canjear código</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="cartBtn" aria-label="Carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+      <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#inicio">Inicio</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#catalogo">Catálogo</a>
+    <a href="#canje">Canjear código</a>
+    <a href="#faq">Preguntas</a>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <div class="kicker"><span class="dot">🎬</span> Beneficio exclusivo para colaboradores Soriana</div>
+      <h1>Ve al cine pagando <span class="accent">hasta 60% menos.</span></h1>
+      <p class="lead">Soriana se une con <b>TaquillApp para Empresas</b> para que tú y tu familia accedan a códigos y folios de cine con el mejor precio del mercado, canjeables directamente en taquilla de Cinépolis y Cinemex.</p>
+      <div class="hero-ctas">
+        <a href="#catalogo" class="btn btn-primary">Ver catálogo de cine</a>
+        <a href="#como-funciona" class="btn btn-outline">Cómo funciona</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>60%</b><span>Descuento máximo</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><b>2</b><span>Cadenas: Cinépolis y Cinemex</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><b>+15,000</b><span>Colaboradores beneficiados</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="ticket-card">
+        <div class="ticket-top">
+          <span class="who">Folio colaborador Soriana</span>
+          <span class="brand">🎟 TaquillApp</span>
+        </div>
+        <div class="ticket-movie">Combo Palomitas Grande + 2 Refrescos</div>
+        <div class="ticket-meta"><span>Válido en Cinépolis</span><span>·</span><span>Sin fecha límite de canje*</span></div>
+        <div class="ticket-dashed"></div>
+        <div class="ticket-bottom">
+          <div>
+            <div class="ticket-price-old">Antes $210.00</div>
+            <div class="ticket-price-new">$84.00</div>
+          </div>
+          <span class="ticket-save">Ahorras 60%</span>
+        </div>
+        <div class="barcode"></div>
+      </div>
+      <div class="float-chip c1"><span class="ico" style="background:var(--gold-light);">⭐</span> 4.9/5 satisfacción</div>
+      <div class="float-chip c2"><span class="ico" style="background:var(--red-light);">✅</span> Código entregado al instante</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Benefits strip ===== -->
+<div class="benefits-strip">
+  <div class="wrap benefits-grid">
+    <div class="benefit-item"><span class="ico">💸</span><div><b>Hasta 60% de dto.</b><span>En boletos y combos seleccionados</span></div></div>
+    <div class="benefit-item"><span class="ico">⚡</span><div><b>Entrega inmediata</b><span>Folio digital al confirmar tu compra</span></div></div>
+    <div class="benefit-item"><span class="ico">🎬</span><div><b>Cinépolis y Cinemex</b><span>Canje directo en taquilla física</span></div></div>
+    <div class="benefit-item"><span class="ico">🛡️</span><div><b>Respaldado por Soriana</b><span>Operado y soportado por TaquillApp</span></div></div>
+  </div>
+</div>
+
+<!-- ===== Cómo funciona ===== -->
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>Tu código de cine en 4 pasos</h2>
+      <p>Un beneficio pensado para colaboradores Soriana, con toda la operación y soporte a cargo de TaquillApp para Empresas.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Ingresa con tu cuenta</h3>
+        <p>Accede al portal de beneficios con tu número de colaborador Soriana para validar tu descuento.</p>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Elige tu boleto o combo</h3>
+        <p>Explora el catálogo disponible de Cinépolis y Cinemex con precios preferenciales para ti.</p>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Compra con tu descuento</h3>
+        <p>El precio colaborador se aplica automáticamente en el carrito, sin cupones ni pasos extra.</p>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Recibe y canjea tu folio</h3>
+        <p>Tu código llega al instante. Preséntalo directamente en taquilla del cine para canjearlo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Catálogo ===== -->
+<section class="catalog-bg" id="catalogo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Catálogo disponible</div>
+      <h2>Elige tu boleto, combo o experiencia</h2>
+      <p>Muestra del catálogo TaquillApp habilitado para colaboradores Soriana. Agrega productos y prueba la simulación de compra.</p>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-filter="all">Todos</button>
+      <button class="tab-btn" data-filter="cinepolis">Cinépolis</button>
+      <button class="tab-btn" data-filter="cinemex">Cinemex</button>
+      <button class="tab-btn" data-filter="combo">Combos y paquetes</button>
+    </div>
+
+    <div class="cat-grid" id="catGrid">
+
+      <div class="cat-card" data-cat="cinepolis" data-id="c1" data-name="Boleto General 2D · Cinépolis" data-price="57" data-old="95">
+        <div class="cat-top bg-cinepolis"><span class="flag">-40%</span><span class="cinema-pill">🎬 Cinépolis</span></div>
+        <div class="cat-body">
+          <h4>Boleto General 2D</h4>
+          <p class="desc">Válido cualquier día en función 2D estándar.</p>
+          <div class="price-row"><span class="price-old">$95.00</span><span class="price-new">$57.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c1">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="cinepolis" data-id="c2" data-name="Boleto VIP · Cinépolis" data-price="99" data-old="180">
+        <div class="cat-top bg-cinepolis"><span class="flag">-45%</span><span class="cinema-pill">🎬 Cinépolis</span></div>
+        <div class="cat-body">
+          <h4>Boleto VIP <span style="color:var(--gray); font-weight:500; font-size:11px;">· Más popular</span></h4>
+          <p class="desc">Sala VIP con asientos reclinables y servicio a sala.</p>
+          <div class="price-row"><span class="price-old">$180.00</span><span class="price-new">$99.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c2">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="cinepolis" data-id="c3" data-name="Sala Junior · Cinépolis" data-price="51" data-old="85">
+        <div class="cat-top bg-cinepolis"><span class="flag">-40%</span><span class="cinema-pill">🎬 Cinépolis</span></div>
+        <div class="cat-body">
+          <h4>Boleto Sala Junior</h4>
+          <p class="desc">Ideal para ir con los peques del hogar.</p>
+          <div class="price-row"><span class="price-old">$85.00</span><span class="price-new">$51.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c3">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="cinemex" data-id="c4" data-name="Boleto General 2D · Cinemex" data-price="55" data-old="92">
+        <div class="cat-top bg-cinemex"><span class="flag">-40%</span><span class="cinema-pill">🎬 Cinemex</span></div>
+        <div class="cat-body">
+          <h4>Boleto General 2D</h4>
+          <p class="desc">Válido cualquier día en función 2D estándar.</p>
+          <div class="price-row"><span class="price-old">$92.00</span><span class="price-new">$55.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c4">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="cinemex" data-id="c5" data-name="Boleto Platino · Cinemex" data-price="89" data-old="170">
+        <div class="cat-top bg-cinemex"><span class="flag">-48%</span><span class="cinema-pill">🎬 Cinemex</span></div>
+        <div class="cat-body">
+          <h4>Boleto Platino</h4>
+          <p class="desc">Experiencia premium con asientos reclinables.</p>
+          <div class="price-row"><span class="price-old">$170.00</span><span class="price-new">$89.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c5">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="cinemex" data-id="c6" data-name="Boleto MX4D · Cinemex" data-price="115" data-old="210">
+        <div class="cat-top bg-cinemex"><span class="flag">-45%</span><span class="cinema-pill">🎬 Cinemex</span></div>
+        <div class="cat-body">
+          <h4>Boleto MX4D</h4>
+          <p class="desc">La experiencia inmersiva con efectos especiales.</p>
+          <div class="price-row"><span class="price-old">$210.00</span><span class="price-new">$115.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c6">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="combo" data-id="c7" data-name="Combo Palomitas Grande + 2 Refrescos" data-price="84" data-old="210">
+        <div class="cat-top bg-combo"><span class="flag">-60%</span><span class="cinema-pill">🍿 Combos</span></div>
+        <div class="cat-body">
+          <h4>Combo Palomitas + 2 Refrescos <span style="color:var(--gray); font-weight:500; font-size:11px;">· Mayor ahorro</span></h4>
+          <p class="desc">Palomitas grandes y dos refrescos medianos.</p>
+          <div class="price-row"><span class="price-old">$210.00</span><span class="price-new">$84.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c7">Agregar +</button></div>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="combo" data-id="c8" data-name="Paquete Familiar · 4 Boletos Generales" data-price="190" data-old="380">
+        <div class="cat-top bg-combo"><span class="flag">-50%</span><span class="cinema-pill">👨‍👩‍👧‍👦 Combos</span></div>
+        <div class="cat-body">
+          <h4>Paquete Familiar</h4>
+          <p class="desc">4 boletos generales, válidos en Cinépolis o Cinemex.</p>
+          <div class="price-row"><span class="price-old">$380.00</span><span class="price-new">$190.00</span></div>
+          <div class="cat-actions"><button class="add-btn" data-id="c8">Agregar +</button></div>
+        </div>
+      </div>
+
+    </div>
+    <p class="catalog-note">*Precios de referencia para fines de esta demostración. El catálogo, vigencia y precios finales corresponden al catálogo real de TaquillApp.</p>
+  </div>
+</section>
+
+<!-- ===== Canje ===== -->
+<section id="canje">
+  <div class="wrap redeem-grid">
+    <div class="redeem-card">
+      <h3>Canjea directo en taquilla</h3>
+      <p>Tu folio o código no se usa en línea: se presenta físicamente en la taquilla del cine para entregarte tu boleto o producto de dulcería.</p>
+      <div class="cinema-logos">
+        <div class="cinema-logo-chip">🎬 Cinépolis</div>
+        <div class="cinema-logo-chip">🎬 Cinemex</div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">Después de tu compra</div>
+      <h2 style="margin-bottom:26px;">Así se canjea tu folio</h2>
+      <div class="redeem-steps">
+        <div class="redeem-step"><span class="n">1</span><div><b>Recibes tu código</b><span>Llega de inmediato dentro de tu cuenta de beneficios y por correo.</span></div></div>
+        <div class="redeem-step"><span class="n">2</span><div><b>Acude a taquilla física</b><span>Preséntalo en la taquilla de Cinépolis o Cinemex de tu preferencia.</span></div></div>
+        <div class="redeem-step"><span class="n">3</span><div><b>Te entregan tu producto</b><span>El personal del cine valida el folio y te entrega tu boleto o combo.</span></div></div>
+        <div class="redeem-step"><span class="n">4</span><div><b>Disfruta la función</b><span>Listo — todo con el respaldo y soporte de TaquillApp para Empresas.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Testimonios ===== -->
+<section style="background:var(--gray-light);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Colaboradores Soriana</div>
+      <h2>Lo que dicen quienes ya lo usan</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Compré el combo con mi descuento de colaboradora y en minutos ya tenía el código. Fui directo a Cinépolis y sin fila especial, todo salió bien."</p>
+        <div class="testi-who"><span class="testi-avatar">RL</span><div><b>Rosa L.</b><span>Colaboradora · Tienda Monterrey</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"No sabía que Soriana tenía este beneficio. Llevé a mis hijos al cine pagando casi la mitad, y el proceso de compra fue clarísimo."</p>
+        <div class="testi-who"><span class="testi-avatar">JD</span><div><b>Jorge D.</b><span>Colaborador · Centro de Distribución</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"El combo de palomitas con 60% de descuento fue lo mejor. TaquillApp da todo el soporte si tienes dudas al canjear."</p>
+        <div class="testi-who"><span class="testi-avatar">AV</span><div><b>Ana V.</b><span>Colaboradora · Oficinas Corporativas</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Preguntas frecuentes</div>
+      <h2>Todo lo que debes saber</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q">¿Dónde canjeo mi código o folio? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Todos los códigos se canjean directamente en la taquilla física de Cinépolis o Cinemex, según el cine correspondiente al producto que compraste. No se canjean en línea ni dentro de la app del cine.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Cuánto puedo ahorrar comprando con este beneficio? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Dependiendo del producto, los colaboradores Soriana pueden acceder a descuentos de hasta el 60% sobre el precio regular de taquilla, gracias al convenio con TaquillApp para Empresas.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Quién puede usar este beneficio? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Es exclusivo para colaboradores activos de Soriana. El acceso se valida con tu cuenta de colaborador dentro del portal de beneficios.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Quién da soporte si tengo un problema con mi código? <span class="plus">+</span></button>
+        <div class="faq-a"><p>TaquillApp para Empresas opera la plataforma y brinda soporte directo a los colaboradores Soriana ante cualquier duda o incidencia con sus folios.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Los códigos caducan? <span class="plus">+</span></button>
+        <div class="faq-a"><p>La vigencia depende de cada producto y se indica al momento de la compra dentro del catálogo real de TaquillApp.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA banner ===== -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="cta-banner">
+      <div>
+        <h3>Tu próxima función de cine, hasta 60% más barata.</h3>
+        <p>Disponible ya para colaboradores Soriana, con el soporte de TaquillApp para Empresas.</p>
+      </div>
+      <a href="#catalogo" class="btn btn-outline">Ver catálogo ahora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand-name">soriana <span style="color:#fff; font-weight:600; font-size:13px;">× TaquillApp</span></div>
+        <p>Beneficios corporativos para colaboradores Soriana. Cine con descuento, operado y soportado por TaquillApp para Empresas.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Beneficio</h4>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#canje">Canjear código</a>
+      </div>
+      <div class="foot-col">
+        <h4>Ayuda</h4>
+        <a href="#faq">Preguntas frecuentes</a>
+        <a href="#">Soporte TaquillApp</a>
+        <a href="#">Contacto Recursos Humanos</a>
+      </div>
+      <div class="foot-col">
+        <h4>Cines participantes</h4>
+        <a href="#">Cinépolis</a>
+        <a href="#">Cinemex</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Soriana · Beneficios para Colaboradores. Operado con TaquillApp para Empresas.</span>
+      <span>Demo interna — no conectada a sistemas de compra reales.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Cart overlay + drawer ===== -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Tu carrito</h3>
+    <button class="close-btn" id="closeDrawer">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="cart-empty" id="cartEmpty">
+      🎬<br><br>Tu carrito está vacío.<br>Agrega boletos o combos del catálogo.
+    </div>
+  </div>
+  <div class="drawer-foot" id="drawerFoot" style="display:none;">
+    <div class="row-between"><span>Subtotal</span><span id="subtotalOld">$0.00</span></div>
+    <div class="row-between"><span>Descuento colaborador Soriana</span><b id="discountAmt">-$0.00</b></div>
+    <div class="row-total"><span>Total a pagar</span><span id="totalNew">$0.00</span></div>
+    <button class="btn btn-primary btn-block" id="checkoutBtn">Confirmar compra (simulada)</button>
+  </div>
+</div>
+
+<!-- ===== Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+(function(){
+  var catalog = {
+    c1:{name:"Boleto General 2D · Cinépolis", price:57, cinema:"Cinépolis", color:"linear-gradient(135deg,#233A66,#31508c)"},
+    c2:{name:"Boleto VIP · Cinépolis", price:99, cinema:"Cinépolis", color:"linear-gradient(135deg,#233A66,#31508c)"},
+    c3:{name:"Sala Junior · Cinépolis", price:51, cinema:"Cinépolis", color:"linear-gradient(135deg,#233A66,#31508c)"},
+    c4:{name:"Boleto General 2D · Cinemex", price:55, cinema:"Cinemex", color:"linear-gradient(135deg,#D5001C,#ff4b57)"},
+    c5:{name:"Boleto Platino · Cinemex", price:89, cinema:"Cinemex", color:"linear-gradient(135deg,#D5001C,#ff4b57)"},
+    c6:{name:"Boleto MX4D · Cinemex", price:115, cinema:"Cinemex", color:"linear-gradient(135deg,#D5001C,#ff4b57)"},
+    c7:{name:"Combo Palomitas + 2 Refrescos", price:84, cinema:"Combo", color:"linear-gradient(135deg,#c98600,#F2A900)"},
+    c8:{name:"Paquete Familiar · 4 Boletos", price:190, cinema:"Combo", color:"linear-gradient(135deg,#c98600,#F2A900)"}
+  };
+  var cart = {}; // id -> qty
+
+  var cartBtn=document.getElementById('cartBtn'), drawer=document.getElementById('drawer'),
+      overlay=document.getElementById('overlay'), closeDrawer=document.getElementById('closeDrawer'),
+      cartCount=document.getElementById('cartCount'), drawerBody=document.getElementById('drawerBody'),
+      cartEmpty=document.getElementById('cartEmpty'), drawerFoot=document.getElementById('drawerFoot'),
+      subtotalOld=document.getElementById('subtotalOld'), discountAmt=document.getElementById('discountAmt'),
+      totalNew=document.getElementById('totalNew'), checkoutBtn=document.getElementById('checkoutBtn');
+
+  function money(n){ return '$'+n.toFixed(2); }
+
+  function openDrawer(){ drawer.classList.add('show'); overlay.classList.add('show'); }
+  function closeDrawerFn(){ drawer.classList.remove('show'); overlay.classList.remove('show'); }
+  cartBtn.addEventListener('click', openDrawer);
+  closeDrawer.addEventListener('click', closeDrawerFn);
+  overlay.addEventListener('click', function(){ closeDrawerFn(); closeModal(); });
+
+  function addToCart(id){
+    cart[id] = (cart[id]||0) + 1;
+    renderCart();
+    openDrawer();
+  }
+
+  function removeFromCart(id){
+    delete cart[id];
+    renderCart();
+  }
+
+  function renderCart(){
+    var ids = Object.keys(cart);
+    var totalQty = ids.reduce(function(s,id){return s+cart[id];},0);
+    if(totalQty>0){ cartCount.style.display='flex'; cartCount.textContent = totalQty; }
+    else { cartCount.style.display='none'; }
+
+    if(ids.length===0){
+      cartEmpty.style.display='block';
+      drawerFoot.style.display='none';
+      var rows = drawerBody.querySelectorAll('.cart-row');
+      rows.forEach(function(r){ r.remove(); });
+      return;
+    }
+    cartEmpty.style.display='none';
+    drawerFoot.style.display='block';
+
+    var html = '';
+    var oldTotal = 0, newTotal = 0;
+    ids.forEach(function(id){
+      var item = catalog[id];
+      var qty = cart[id];
+      var oldPrice = Math.round(item.price / 0.55); // approx reference "old" price for display
+      newTotal += item.price*qty;
+      oldTotal += oldPrice*qty;
+      html += '<div class="cart-row" data-row="'+id+'">'+
+                '<div class="cart-thumb" style="background:'+item.color+';">'+item.cinema+'</div>'+
+                '<div class="cart-info"><b>'+item.name+'</b><span>Cantidad: '+qty+'</span></div>'+
+                '<div class="cart-price">'+money(item.price*qty)+'</div>'+
+                '<button class="cart-remove" data-remove="'+id+'">✕</button>'+
+              '</div>';
+    });
+    var existing = drawerBody.querySelectorAll('.cart-row');
+    existing.forEach(function(r){ r.remove(); });
+    drawerBody.insertAdjacentHTML('beforeend', html);
+
+    drawerBody.querySelectorAll('[data-remove]').forEach(function(btn){
+      btn.addEventListener('click', function(){ removeFromCart(btn.getAttribute('data-remove')); });
+    });
+
+    var discount = oldTotal - newTotal;
+    subtotalOld.textContent = money(oldTotal);
+    discountAmt.textContent = '-'+money(discount);
+    totalNew.textContent = money(newTotal);
+  }
+
+  document.querySelectorAll('.add-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-id');
+      addToCart(id);
+      btn.classList.add('added');
+      var original = btn.textContent;
+      btn.textContent = 'Agregado ✓';
+      setTimeout(function(){ btn.classList.remove('added'); btn.textContent = original; }, 1200);
+    });
+  });
+
+  // Tabs filter
+  document.querySelectorAll('.tab-btn').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab-btn').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var filter = tab.getAttribute('data-filter');
+      document.querySelectorAll('.cat-card').forEach(function(card){
+        var cat = card.getAttribute('data-cat');
+        card.style.display = (filter==='all' || cat===filter) ? '' : 'none';
+      });
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var item = q.parentElement;
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+      if(!wasOpen){ item.classList.add('open'); }
+    });
+  });
+
+  // Mobile menu
+  var hamburger = document.getElementById('hamburgerBtn'), mobilePanel = document.getElementById('mobilePanel');
+  hamburger.addEventListener('click', function(){ mobilePanel.classList.toggle('open'); });
+  mobilePanel.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mobilePanel.classList.remove('open'); }); });
+
+  // Checkout simulation
+  var modalOverlay = document.getElementById('modalOverlay'), modalContent = document.getElementById('modalContent');
+  function openModal(html){ modalContent.innerHTML = html; modalOverlay.classList.add('show'); }
+  function closeModal(){ modalOverlay.classList.remove('show'); }
+
+  function randomFolio(){
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    var code = 'TQA-';
+    for(var i=0;i<7;i++){ code += chars[Math.floor(Math.random()*chars.length)]; }
+    return code;
+  }
+
+  checkoutBtn.addEventListener('click', function(){
+    var ids = Object.keys(cart);
+    if(ids.length===0) return;
+
+    openModal(
+      '<div class="spinner"></div>'+
+      '<h3>Procesando tu compra…</h3>'+
+      '<p class="sub">Aplicando tu descuento de colaborador Soriana y generando tus folios TaquillApp.</p>'
+    );
+
+    var purchasedItems = [];
+    ids.forEach(function(id){
+      var item = catalog[id];
+      for(var i=0;i<cart[id];i++){
+        purchasedItems.push({name:item.name, code:randomFolio()});
+      }
+    });
+
+    setTimeout(function(){
+      var listHtml = '<div class="folio-list">';
+      purchasedItems.forEach(function(p){
+        listHtml += '<div class="folio-card"><div><div class="fname">'+p.name+'</div><div class="fcode">'+p.code+'</div></div><button class="copy-btn" data-copy="'+p.code+'">Copiar</button></div>';
+      });
+      listHtml += '</div>';
+
+      openModal(
+        '<div class="success-icon">'+
+          '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'+
+        '</div>'+
+        '<h3>¡Compra simulada con éxito!</h3>'+
+        '<p class="sub">Estos son tus folios de ejemplo. Preséntalos directamente en la taquilla de Cinépolis o Cinemex para canjearlos.</p>'+
+        listHtml+
+        '<button class="btn btn-primary btn-block" id="modalCloseBtn">Entendido</button>'
+      );
+
+      modalContent.querySelectorAll('[data-copy]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var code = btn.getAttribute('data-copy');
+          try{
+            navigator.clipboard.writeText(code);
+            var original = btn.textContent;
+            btn.textContent = '¡Copiado!';
+            setTimeout(function(){ btn.textContent = original; }, 1200);
+          }catch(e){}
+        });
+      });
+      document.getElementById('modalCloseBtn').addEventListener('click', function(){
+        closeModal();
+        cart = {};
+        renderCart();
+        closeDrawerFn();
+      });
+    }, 1400);
+  });
+
+})();
+</script>
+
+</body>
+</html>
